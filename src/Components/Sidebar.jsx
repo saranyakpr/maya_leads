@@ -1,19 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import dashboard from '../assets/img/dashboard.png'
 import counter from '../assets/img/counter.png'
 import user from '../assets/img/user.png'
 import logo from '../assets/img/logo.png'
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
-  const [activeItem, setActiveItem] = useState('dashboard')
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: dashboard },
-    { id: 'competitors', label: 'Competitors', icon: user },
-    { id: 'followers', label: 'Competitors Followers', icon: counter },
-    { id: 'campaigns', label: 'Campaigns', icon: counter },
-    { id: 'leads', label: 'Leads', icon: counter },
+    { id: 'dashboard', label: 'Dashboard', icon: dashboard, path: '/dashboard' },
+    { id: 'competitors', label: 'Competitors', icon: user, path: '/competitors' },
+    { id: 'followers', label: 'Competitors Followers', icon: counter, path: '/followers' },
+    { id: 'campaigns', label: 'Campaigns', icon: counter, path: '/campaigns' },
+    { id: 'leads', label: 'Leads', icon: counter, path: '/leads' },
   ]
+
+  const handleNavigation = (path) => {
+    navigate(path)
+    setSidebarOpen(false)
+  }
 
   return (
     <>
@@ -60,12 +67,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             {menuItems.map((item) => (
               <li key={item.id}>
                 <button
-                  onClick={() => {
-                    setActiveItem(item.id)
-                    setSidebarOpen(false) // Close sidebar on mobile after click
-                  }}
+                  onClick={() => handleNavigation(item.path)}
                   className={`w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 rounded-lg transition-colors text-sm md:text-base cursor-pointer ${
-                    activeItem === item.id
+                    location.pathname === item.path || (item.path === '/dashboard' && location.pathname === '/')
                       ? 'bg-indigo-600 text-white'
                       : 'text-gray-400 hover:text-white hover:bg-gray-700'
                   }`}

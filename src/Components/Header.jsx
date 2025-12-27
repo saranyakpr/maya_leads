@@ -1,8 +1,22 @@
 import React from 'react'
 import notification from '../assets/img/notification.png'
 import profile from '../assets/img/profile.png'
+import { useLocation } from 'react-router-dom'
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
+  const location = useLocation()
+
+  const pageConfig = {
+    '/': { title: 'Dashboard Overview', subtitle: 'Monitor your competitor analysis and campaign performance' },
+    '/dashboard': { title: 'Dashboard Overview', subtitle: 'Monitor your competitor analysis and campaign performance' },
+    '/competitors': { title: 'Competitor Management', subtitle: 'Track and analyze your Instagram competitors' },
+    '/followers': { title: 'Competitors Followers', subtitle: 'Analyze follower growth and engagement' },
+    '/campaigns': { title: 'Campaigns', subtitle: 'Create and manage your messaging campaigns' },
+    '/leads': { title: 'Leads', subtitle: 'Track and manage all campaign responses' },
+  }
+
+  const currentPage = pageConfig[location.pathname] || pageConfig['/dashboard']
+
   return (
     <header className='bg-[#2D2D44] border-b border-gray-700 px-3 sm:px-4 md:px-6 py-3 md:py-4 flex justify-between items-center'>
       <div className='flex items-center gap-3 md:gap-0 flex-1'>
@@ -18,8 +32,8 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
         
         {/* Title */}
         <div className='min-w-0'>
-          <h1 className='text-lg md:text-2xl font-bold text-white truncate'>Dashboard Overview</h1>
-          <p className='text-gray-400 text-xs md:text-sm hidden sm:block'>Monitor your competitor analysis and campaign performance</p>
+          <h1 className='text-lg md:text-2xl font-bold text-white truncate'>{currentPage.title}</h1>
+          <p className='text-gray-400 text-xs md:text-sm hidden sm:block'>{currentPage.subtitle}</p>
         </div>
       </div>
       
